@@ -1,2 +1,43 @@
-# performance-test-gatling
+Performance test gatling
+========================
+
 Performance test toolbox with Gatling for IDevelop web applications
+
+Install
+-------
+
+```bash
+git clone https://github.com/epfl-idevelop/performance-test-gatling.git
+cd performance-test-gatling
+./bin/install.sh
+```
+
+Run
+---
+
+Default simulation:
+
+```bash
+./gatling/bin/gatling.sh
+```
+
+IDevelop simulation:
+
+```bash
+./gatling/bin/gatling.sh -sf simulation/
+```
+
+Developers
+----------
+
+  * [Olivier Bieler](https://github.com/obieler)
+  * [William Belle](https://github.com/williambelle)
+
+License
+-------
+
+Apache License 2.0
+
+(c) ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE, Switzerland, VPSI, 2018.
+
+See the [LICENSE](LICENSE) file for more details.
