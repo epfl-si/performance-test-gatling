@@ -24,7 +24,7 @@ Default simulation:
 IDevelop simulation:
 
 ```bash
-./gatling/bin/gatling.sh -sf simulation/
+./gatling/bin/gatling.sh -sf simulations/
 ```
 
 Developers
