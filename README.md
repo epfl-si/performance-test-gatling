@@ -33,6 +33,11 @@ Developers
   * [Olivier Bieler](https://github.com/obieler)
   * [William Belle](https://github.com/williambelle)
 
+Documentation
+-------------
+  * [Gatling documentation](https://gatling.io/docs/current/)
+  * For asking questions, join the [Google Group](https://groups.google.com/forum/#!forum/gatling).
+
 License
 -------
 
