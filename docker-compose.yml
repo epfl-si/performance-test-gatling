@@ -6,6 +6,9 @@
 version: '3'
 services:
   runner:
-    build: ./
+    build: .
     environment:
       TESTS: ${TESTS}
+    volumes:
+      - .:/sim
+      - ./results:/sim/results
