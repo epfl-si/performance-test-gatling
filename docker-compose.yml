@@ -1,0 +1,11 @@
+# Install Docker and docker-compose
+# Build: docker-compose build
+# Run:   TESTS=WwwProxy docker-compose up
+# Run:   TESTS=TestWwwProxy docker-compose up
+# Run:   TESTS="TestWwwProxy WwwProxy" docker-compose up
+version: '3'
+services:
+  runner:
+    build: ./
+    environment:
+      TESTS: ${TESTS}
