@@ -86,6 +86,9 @@ echo "Gathering result file from localhost"
 ls -t $GATLING_LOCAL_REPORT_DIR | head -n 1 | xargs -I {} mv ${GATLING_LOCAL_REPORT_DIR}{} ${GATLING_LOCAL_REPORT_DIR}report
 cp ${GATLING_LOCAL_REPORT_DIR}report/simulation.log $GATHER_LOCAL_REPORTS_DIR
 
+echo "Waiting for the end of simulations on hosts.."
+sleep 30
+
 for HOST in "${HOSTS[@]}"
 do
   echo "Gathering result file from host: $HOST"
