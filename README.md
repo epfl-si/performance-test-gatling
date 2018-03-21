@@ -27,6 +27,13 @@ IDevelop simulation:
 ./gatling/bin/gatling.sh -sf simulations/
 ```
 
+IDevelop cluster simulation with gathering of results:
+
+```bash
+./bin/cluster-run.sh <simulation_name>
+```
+Example: `./bin/cluster-run.sh WwwProxy`
+
 Developers
 ----------
 
