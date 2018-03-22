@@ -1,5 +1,5 @@
 
-#!/bin/bash#!/usr/bin/env bash
+#!/usr/bin/env bash
 #
 # (c) ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE, Switzerland, VPSI, 2018.
 # See the LICENSE file for more details.
@@ -23,7 +23,7 @@ fi
 
 SIMULATION_NAME="computerdatabase.$1"
 
-#Test if simulation fiel exist
+#Test if simulation file exist
 CURRENT_DIR="${PWD##*/}"
 SEARCH_PATH="."
 if [ $CURRENT_DIR == "bin" ]
@@ -33,7 +33,7 @@ fi
 
 if [ ! $(find $SEARCH_PATH -name $1.scala) ]
 then
-  echo "Simulation not exist."
+  echo "Simulation doesn't exist."
 fi
 
 #Assuming same user name for all hosts
