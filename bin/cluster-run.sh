@@ -17,8 +17,8 @@
 
 if [ -z $1 ] || [ $# -gt 1 ]
 then
-    echo "Usage: $0 <simulation_name>"
-    exit -1
+  echo "Usage: $0 <simulation_name>"
+  exit -1
 fi
 
 SIMULATION_NAME="computerdatabase.$1"
@@ -34,6 +34,7 @@ fi
 if [ ! $(find $SEARCH_PATH -name $1.scala) ]
 then
   echo "Simulation doesn't exist."
+  exit -1
 fi
 
 #Assuming same user name for all hosts
