@@ -13,23 +13,31 @@ die() {
   exit 1
 }
 
-while getopts ":f:" OPT; do
+git_branch=""
+while getopts ":f:b:" OPT; do
   [[ $OPTARG =~ ^- ]] && die "Option -$OPT requires an argument."
   case $OPT in
     :)
       die "Option -$OPTARG requires an argument."; ;;
     f)
       origin="$OPTARG"; ;;
+    b)
+      git_branch="-b $OPTARG"; ;;
   esac
 done
 shift $((OPTIND-1))
 CMDS="$@"
 
+echo "==== origin:  '$origin'"
+echo "     branch:  '$git_branch'"
+echo "     CMDS:    $CMDS"
+echo "     cr uri:  '$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'" 
+
 # If origin is given, we assume /sim is not yet present
 if [ -n "$origin" ] ; then
-  [ -d /sim ] && die "/sim directory is already present. Do not mount if you want to start from external origin" 
-  if   [[ "$origin" == "*.git" ]] ; then
-    git clone $origin /sim
+  [ -d /sim/simulations ] && die "/sim directory is already present. Do not mount if you want to start from external origin" 
+  if   [[ $origin == *.git ]] ; then
+    git clone ${git_branch} $origin /sim
   else
     die "http simulation server not yet implemented"
   fi
@@ -48,6 +56,7 @@ for cmd in $CMDS ; do
   done
   CMDPATHS="$CMDPATHS $t"
 done
+echo "     CMDS:    $CMDPATHS"
 
 for c in $CMDPATHS ; do
   . $c

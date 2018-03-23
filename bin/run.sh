@@ -8,7 +8,7 @@ else
   resdir="results/"
 fi
 
-echo "====================================== Run simulations ${nrep} x ($TESTS)"
+echo "====================================== Run simulations ${nrep} x (${TESTS})"
 for i in $(seq 1 $nrep) ; do
   for t in ${TESTS} ; do
     gatling.sh -sf /sim/simulations/ -rf /sim/$resdir -m -s computerdatabase.$t
