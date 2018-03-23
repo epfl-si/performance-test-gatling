@@ -11,4 +11,4 @@ services:
       TESTS: ${TESTS}
     volumes:
       - .:/sim
-      - ./results:/sim/results
+      - ./gatling/results:/sim/gatling/results

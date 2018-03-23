@@ -21,7 +21,7 @@ then
   exit -1
 fi
 
-SIMULATION_NAME="computerdatabase.$1"
+SIMULATION_NAME="epfl.$1"
 
 #Test if simulation file exist
 CURRENT_DIR="${PWD##*/}"
