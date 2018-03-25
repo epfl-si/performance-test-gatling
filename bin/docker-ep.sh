@@ -14,7 +14,7 @@ die() {
 }
 
 git_branch=""
-while getopts ":f:b:" OPT; do
+while getopts ":ef:b:" OPT; do
   [[ $OPTARG =~ ^- ]] && die "Option -$OPT requires an argument."
   case $OPT in
     :)
@@ -23,15 +23,20 @@ while getopts ":f:b:" OPT; do
       origin="$OPTARG"; ;;
     b)
       git_branch="-b $OPTARG"; ;;
+    e)
+      echo "------------------------------------------------- env"
+      env
+      echo "-------------------------------------------------/env"
+      ;;
   esac
 done
 shift $((OPTIND-1))
 CMDS="$@"
 
+
 echo "==== origin:  '$origin'"
 echo "     branch:  '$git_branch'"
 echo "     CMDS:    $CMDS"
-echo "     cr uri:  '$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI'" 
 
 # If origin is given, we assume /sim is not yet present
 if [ -n "$origin" ] ; then
@@ -49,15 +54,21 @@ fi
 CMDPATHS=""
 for cmd in $CMDS ; do
   t=""
-  for c in /sim/bin/$cmd /sim/$cmd $cmd ; do
-    if [ -f $c ] ; then
-      t=$c
-    fi
-  done
+  if [[ $cmd == http* ]] ; then
+    t=$(mktemp -u -t XXXXXX).sh
+    wget -O $t $cmd || t=""
+  else
+    for c in /sim/bin/$cmd /sim/$cmd $cmd ; do
+      if [ -f $c ] ; then
+        t=$c
+      fi
+    done
+  fi
+  echo "     add '$t' as result of '$cmd'"
   CMDPATHS="$CMDPATHS $t"
 done
-echo "     CMDS:    $CMDPATHS"
 
 for c in $CMDPATHS ; do
+  echo "     Calling $c."
   . $c
 done
