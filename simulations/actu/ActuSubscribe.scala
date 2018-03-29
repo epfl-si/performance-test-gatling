@@ -30,7 +30,7 @@ class ActuSubscribe extends Simulation {
 
   // A scenario is a chain of requests and pauses
   val scn = scenario("actu-channel-subscribe").group("page") {
-    exec(http("actu-channel-subscribe").get("/")
+    exec(http("actu-channel-subscribe").get("/subscription/subscribe/1/")
   )}
 
   setUp(

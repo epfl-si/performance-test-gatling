@@ -30,7 +30,7 @@ class ActuNewsMedium extends Simulation {
 
   // A scenario is a chain of requests and pauses
   val scn = scenario("actu-news-medium").group("page") {
-    exec(http("actu-news-medium").get("/")
+    exec(http("actu-news-medium").get("/news/des-connexions-se-creent-pour-depasser-la-paralysi/")
   )}
 
   setUp(
