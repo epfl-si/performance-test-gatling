@@ -2,7 +2,7 @@
  * (c) All rights reserved. ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE,
  * Switzerland, VPSI, 2018
  */
-package computerdatabase
+package epfl
 
 import io.gatling.core.Predef._
 import io.gatling.http.Predef._

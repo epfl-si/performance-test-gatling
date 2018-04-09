@@ -15,4 +15,4 @@ services:
     volumes:
       - .:/sim
       - ./results:/sim/results
-    command: run.sh 
+    command: run.sh

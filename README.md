@@ -27,6 +27,13 @@ IDevelop simulation:
 ./gatling/bin/gatling.sh -sf simulations/
 ```
 
+IDevelop cluster simulation with gathering of results:
+
+```bash
+./bin/cluster-run.sh <simulation_name>
+```
+Example: `./bin/cluster-run.sh WwwProxy`
+
 Within Docker image with `docker-compose`:
 ```bash
 docker-compose up
@@ -96,7 +103,7 @@ In order to run AWS batch jobs, the following things have to be configured from 
  ```bash
     aws batch register-job-definition --job-definition-name gatling --type container --cli-input-json file://gatling_job_def.json
   ```
-  where the json file content is the following (with AWS_KEYS removed):    
+  where the json file content is the following (with AWS_KEYS removed):
   ```JSON
   {
     "jobDefinitionName": "gatling",
@@ -161,6 +168,7 @@ job --job-queue gatling --job-definition gatling \
     --array-properties '{"size":4}' --job-name WHATEVER
 ```
 The `array-properties` is for launching several istances of the same simulation.
+
 
 Developers
 ----------
