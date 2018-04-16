@@ -37,7 +37,7 @@ class TestWwwProxy extends Simulation {
     // Injects users at a constant rate
     // Users will be injected at randomized intervals.
     scn.inject(
-      constantUsersPerSec(35) during(20) randomized
+      constantUsersPerSec(5) during(300) randomized
     ).protocols(httpConf)
   ).assertions(
     // Test if 95% is served under 500 ms
