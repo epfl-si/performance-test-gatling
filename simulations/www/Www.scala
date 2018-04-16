@@ -8,10 +8,10 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import scala.concurrent.duration._
 
-class WwwProxy extends Simulation {
+class Www extends Simulation {
 
   // Here is the root for all relative URLs
-  val baseUrl = "https://www-proxy.epfl.ch"
+  val baseUrl = "https://www.epfl.ch"
 
   // Here are the common headers
   val header  = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
@@ -29,7 +29,7 @@ class WwwProxy extends Simulation {
     .maxConnectionsPerHostLikeChrome
 
   // A scenario is a chain of requests and pauses
-  val scn = scenario("www-proxy").group("homepage") {
+  val scn = scenario("www").group("homepage") {
     exec(http("index.fr.html").get("/index.fr.html")
   )}
 
@@ -37,7 +37,7 @@ class WwwProxy extends Simulation {
     // Injects users at a constant rate
     // Users will be injected at randomized intervals.
     scn.inject(
-      constantUsersPerSec(35) during(20) randomized
+      constantUsersPerSec(5) during(300) randomized
     ).protocols(httpConf)
   ).assertions(
     // Test if 95% is served under 500 ms
