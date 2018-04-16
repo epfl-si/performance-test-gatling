@@ -6,10 +6,6 @@ tname="TestWwwProxy"
 asize=1
 profile="gatling-eu"
 
-usage() {
-
-}
-
 while getopts ":n:c:t:p:eu" OPT; do
   [[ $OPTARG =~ ^- ]] && die "Option -$OPT requires an argument."
   case $OPT in
