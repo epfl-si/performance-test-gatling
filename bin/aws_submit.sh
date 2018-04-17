@@ -8,7 +8,7 @@ usage() {
       -n NAME    Job name prefix (actual job name will be NAME_datetime)
       -c COUNT   Number of job instances to start [1]
       -t TEST    Name of the gatgling test (class) to start [TestWwwProxy]
-      -p PROFILE Name of the profile in ~/.aws/credentials to use
+      -p PROFILE Name of the profile in ~/.aws/credentials to use (can be repeated)
       -e         Shortcut for -p gatling-eu
       -u         Shortcut for -p gatling-us
       -s SECONDS Period of time between synchronization checks. If present 
@@ -23,11 +23,11 @@ __EOF
 name="epfl"
 tname="TestWwwProxy"
 asize=1
-profile="gatling-eu"
 syncsrv="http://myslideshot.epfl.ch"
 syncto=3600
 syncint=0
 manstart=0
+profiles=""
 
 while getopts ":n:c:t:p:s:S:eumh" OPT; do
   [[ $OPTARG =~ ^- ]] && die "Option -$OPT requires an argument."
@@ -41,11 +41,11 @@ while getopts ":n:c:t:p:s:S:eumh" OPT; do
     t)
       tname="$OPTARG"; ;;
     p)
-      profile="$OPTARG"; ;;
+      profile="$profiles $OPTARG"; ;;
     e)
-      profile="gatling-eu"; ;;
+      profiles="$profiles gatling-eu"; ;;
     u)
-      profile="gatling-us"; ;;
+      profiles="$profiles gatling-us"; ;;
     S)
       syncsrv="$OPTARG"; ;;
     s)
@@ -59,33 +59,38 @@ while getopts ":n:c:t:p:s:S:eumh" OPT; do
   esac
 done
 
-job_name="${name}_$(date +%Y%m%d%H%M)"
+ctime="$(date +%Y%m%d%H%M)"
+job_name="${name}_${ctime}"
 
 envs="{name=NAME, value=$job_name}, {name=TESTS, value=$tname}"
 if [[ $syncint != "0" ]] ; then
-  echo "Job synchronization. Setting countdown server for ${job_name}. "
-  let s=$asize+$manstart
-  curl "${syncsrv}/set?id=${job_name}&count=${s}"
+  let cdown=$manstart
+  for profile in $profiles ; do
+    let cdown=$cdown+$asize
+  done
+  echo "Job synchronization. Setting countdown server for ${job_name} to ${cdown}. "
+  curl "${syncsrv}/set?id=${job_name}&count=${cdown}"
   envs="$envs, {name=SYNC, value=$syncsrv}, {name=CI, value=$syncint}, {name=CTO, value=$syncto}"
 fi
 
 if [ "$asize" == "1" ] ; then
-  aws --profile $profile batch submit-job \
-      --job-queue gatling --job-definition gatling \
-      --job-name "$job_name" \
-      --container-overrides "environment=[$envs]"
+  for profile in $profiles ; do
+    aws --profile $profile batch submit-job \
+        --job-queue gatling --job-definition gatling \
+        --job-name "$job_name" \
+        --container-overrides "environment=[$envs]"
+  done
 else
-  aws --profile $profile batch submit-job \
-      --job-queue gatling --job-definition gatling \
-      --job-name "$job_name" --array-properties "{\"size\":$asize}" \
-      --container-overrides "environment=[$envs]"
+  for profile in $profiles ; do
+    aws --profile $profile batch submit-job \
+        --job-queue gatling --job-definition gatling \
+        --job-name "$job_name" --array-properties "{\"size\":$asize}" \
+        --container-overrides "environment=[$envs]"
+  done
 fi
 
-echo "To check the job status:"
-echo "aws --profile $profile batch list-jobs --job-queue gatling"
-sleep 5
-echo "Example:"
-aws --profile gatling batch list-jobs --job-queue gatling
-
-echo "Once the job is done, you can collect all the results with:"
-echo "aws --profile $profile s3 cp --recursive s3://idevelop-gatling-results/results/${job_name}/ results/${job_name}/"
+echo "To check the job status and collect the all the results:"
+for profile in $profiles ; do
+  echo "aws --profile $profile batch list-jobs --job-queue gatling"
+  echo "aws --profile $profile s3 cp --recursive s3://idevelop-gatling-results/results/${job_name}/ results/${job_name}/"
+done
