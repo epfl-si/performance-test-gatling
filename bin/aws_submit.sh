@@ -45,7 +45,7 @@ while getopts ":n:c:t:o:p:s:S:egumh" OPT; do
     o)
       origin="$OPTARG"; ;;
     g)
-      origin="-b awsdocker https://github.com/epfl-idevelop/performance-test-gatling.git"
+      origin="-b awsdocker https://github.com/epfl-idevelop/performance-test-gatling.git"; ;;
     p)
       profile="$profiles $OPTARG"; ;;
     e)
