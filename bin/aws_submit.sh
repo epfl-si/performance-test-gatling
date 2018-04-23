@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 usage() {
   cat << '__EOF' | sed 's/^    //'
@@ -16,7 +16,9 @@ usage() {
       -S URL     Countdown server address
       -x SECONDS Timeout for synchronization.
       -m         Add one to worker clients so they can be triggered manually
-
+      -o ORIGIN  Origin for simulation files
+                 (e.g. '-b awsdocker https://github.com/epfl-idevelop/performance-test-gatling.git')
+      -g         Shortcut for default github origin
 __EOF
 }
 
@@ -29,7 +31,7 @@ syncint=0
 manstart=0
 profiles=""
 
-while getopts ":n:c:t:p:s:S:eumh" OPT; do
+while getopts ":n:c:t:o:p:s:S:egumh" OPT; do
   [[ $OPTARG =~ ^- ]] && die "Option -$OPT requires an argument."
   case $OPT in
     :)
@@ -40,6 +42,10 @@ while getopts ":n:c:t:p:s:S:eumh" OPT; do
       asize=$OPTARG;  ;;
     t)
       tname="$OPTARG"; ;;
+    o)
+      origin="$OPTARG"; ;;
+    g)
+      origin="-b awsdocker https://github.com/epfl-idevelop/performance-test-gatling.git"
     p)
       profile="$profiles $OPTARG"; ;;
     e)
@@ -62,7 +68,7 @@ done
 ctime="$(date +%Y%m%d%H%M)"
 job_name="${name}_${ctime}"
 
-envs="{name=NAME, value=$job_name}, {name=TESTS, value=$tname}"
+envs="{name=NAME, value=$job_name}, {name=TESTS, value=$tname}, {name=ORIGIN, value='$origin'}"
 if [[ $syncint != "0" ]] ; then
   let cdown=$manstart
   for profile in $profiles ; do
@@ -70,6 +76,7 @@ if [[ $syncint != "0" ]] ; then
   done
   echo "Job synchronization. Setting countdown server for ${job_name} to ${cdown}. "
   curl "${syncsrv}/set?id=${job_name}&count=${cdown}"
+  echo "Use curl '${syncsrv}/set?id=${job_name}' to check status"
   envs="$envs, {name=SYNC, value=$syncsrv}, {name=CI, value=$syncint}, {name=CTO, value=$syncto}"
 fi
 
