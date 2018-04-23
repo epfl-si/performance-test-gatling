@@ -47,6 +47,7 @@ HOSTS=( idevelopsrv20 idevelopsrv21 idevelopsrv22 idevelopsrv23 idevelopsrv24 )
 GATLING_LOCAL_HOME=gatling
 GATLING_REMOTE_HOME=/home/$USER_NAME/performance-test-gatling/gatling
 GATLING_LOCAL_SIMULATIONS_DIR=simulations
+REPO_REMOTE_HOME=/home/$USER_NAME/performance-test-gatling
 GATLING_REMOTE_SIMULATIONS_DIR=/home/$USER_NAME/performance-test-gatling/simulations
 GATLING_LOCAL_RUNNER=$GATLING_LOCAL_HOME/bin/gatling.sh
 GATLING_REMOTE_RUNNER=$GATLING_REMOTE_HOME/bin/gatling.sh
@@ -71,7 +72,7 @@ done
 for HOST in "${HOSTS[@]}"
 do
   echo "Copying simulations to host: $HOST"
-  scp -r $GATLING_LOCAL_SIMULATIONS_DIR $USER_NAME@$HOST:$GATLING_REMOTE_SIMULATIONS_DIR
+  scp -r $GATLING_LOCAL_SIMULATIONS_DIR $USER_NAME@$HOST:$REPO_REMOTE_HOME
 done
 
 for HOST in "${HOSTS[@]}"
