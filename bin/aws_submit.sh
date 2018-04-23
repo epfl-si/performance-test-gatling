@@ -11,8 +11,8 @@ usage() {
       -p PROFILE Name of the profile in ~/.aws/credentials to use (can be repeated)
       -e         Shortcut for -p gatling-eu
       -u         Shortcut for -p gatling-us
-      -s SECONDS Period of time between synchronization checks. If present 
-                 triggers syncrhonization. 
+      -s SECONDS Period of time between synchronization checks. If present
+                 triggers syncrhonization.
       -S URL     Countdown server address
       -x SECONDS Timeout for synchronization.
       -m         Add one to worker clients so they can be triggered manually
@@ -23,7 +23,7 @@ __EOF
 name="epfl"
 tname="TestWwwProxy"
 asize=1
-syncsrv="http://myslideshot.epfl.ch"
+syncsrv="http://countdown.epfl.ch"
 syncto=3600
 syncint=0
 manstart=0

@@ -124,6 +124,7 @@ In order to run AWS batch jobs, the following things have to be configured from 
             "https://github.com/epfl-idevelop/performance-test-gatling.git",
             "-b",
             "awsdocker",
+            "sync.sh",
             "run.sh",
             "cp2s3.sh"
         ],
@@ -161,13 +162,35 @@ In order to run AWS batch jobs, the following things have to be configured from 
   }
   ```
 
-Once everything is set, you can start the job from the console or with a CLI command like the following:
+
+Once everything is set, you can start the job using the `aws_submit.sh` script:
 ```bash
-job --job-queue gatling --job-definition gatling \
-    --container-overrides 'environment=[{name=NAME, value=ANYTHING}, {name=TESTS, value=WwwProxy}]' \
-    --array-properties '{"size":4}' --job-name WHATEVER
+|> ./bin/aws_submit.sh -h
+
+Start Gatling job on AWS.
+Options:
+  -n NAME    Job name prefix (actual job name will be NAME_datetime)
+  -c COUNT   Number of job instances to start [1]
+  -t TEST    Name of the gatgling test (class) to start [TestWwwProxy]
+  -p PROFILE Name of the profile in ~/.aws/credentials to use (can be repeated)
+  -e         Shortcut for -p gatling-eu
+  -u         Shortcut for -p gatling-us
+  -s SECONDS Period of time between synchronization checks. If present
+             triggers syncrhonization.
+  -S URL     Countdown server address
+  -x SECONDS Timeout for synchronization.
+  -m         Add one to worker clients so they can be triggered manually
 ```
-The `array-properties` is for launching several istances of the same simulation.
+
+Example (4 instances of `WwwProxy` test in the dacenter in europe):
+```
+./bin/aws_submit.sh -e -n myjob -t WwwProxy -c 4
+```
+
+Unfortunately, the instances of a job array are not guaranteed to run concurrently. Therefore, we have a synchronisation script (`sync.sh`) that uses a simple web service for keeping track of the jobs that are started. For this, the script needs few more input values: the URL for the synchronisation web service, and, optionally a timeout and check interval. This mechanism can be used to start concurrent jobs on multiple datacenters. Example (last two args are optional):
+```
+./bin/aws_submit.sh -e -n myjob -t WwwProxy -c 4 -S -s 60 -x 3600 -S http://countdown.epfl.ch/
+```
 
 
 Developers
