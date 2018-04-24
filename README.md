@@ -135,10 +135,6 @@ In order to run AWS batch jobs, the following things have to be configured from 
                 "value": "PUT YOUR HERE"
             },
             {
-                "name": "TESTS",
-                "value": "WwwProxy"
-            },
-            {
                 "name": "AWS_ACCESS_KEY_ID",
                 "value": "PUT YOUR HERE"
             },
@@ -146,14 +142,6 @@ In order to run AWS batch jobs, the following things have to be configured from 
                 "name": "AWS_SECRET_ACCESS_KEY",
                 "value": "PUT YOUR HERE"
             },
-            {
-                "name": "NREP",
-                "value": "1"
-            },
-            {
-                "name": "NAME",
-                "value": "aaa"
-            }
         ],
         "mountPoints": [],
         "readonlyRootFilesystem": false,
@@ -180,6 +168,12 @@ Options:
   -S URL     Countdown server address
   -x SECONDS Timeout for synchronization.
   -m         Add one to worker clients so they can be triggered manually
+  -o ORIGIN  Origin for simulation files. Examples:
+             a) '-b awsdocker https://github.com/epfl-idevelop/performance-test-gatling.git'
+             b) 's3://idevelop-gatling-results/simulations'
+  -g         Shortcut for default github origin (example a above)
+  -a         Shortcut for default s3 origin (example b above)
+
 ```
 
 Example (4 instances of `WwwProxy` test in the dacenter in europe):
