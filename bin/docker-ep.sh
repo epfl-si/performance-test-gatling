@@ -25,7 +25,6 @@ done
 shift $((OPTIND-1))
 CMDS="$@"
 
-
 echo "     CMDS:    $CMDS"
 CMDPATHS=""
 for cmd in $CMDS ; do
@@ -34,7 +33,7 @@ for cmd in $CMDS ; do
     t=$(mktemp -u -t XXXXXX).sh
     wget -O $t $cmd || t=""
   else
-    for c in /sim/bin/$cmd /sim/$cmd $cmd ; do
+    for c in /bin/sim/$cmd /sim/bin/$cmd /sim/$cmd $cmd ; do
       if [ -f $c ] ; then
         t=$c
       fi

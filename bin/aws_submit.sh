@@ -16,10 +16,18 @@ usage() {
       -S URL     Countdown server address
       -x SECONDS Timeout for synchronization.
       -m         Add one to worker clients so they can be triggered manually
-      -o ORIGIN  Origin for simulation files
-                 (e.g. '-b awsdocker https://github.com/epfl-idevelop/performance-test-gatling.git')
-      -g         Shortcut for default github origin
+      -o ORIGIN  Origin for simulation files. Examples:
+                 a) '-b awsdocker https://github.com/epfl-idevelop/performance-test-gatling.git'
+                 b) 's3://idevelop-gatling-results/simulations'
+      -g         Shortcut for default github origin (example a above)
+      -a         Shortcut for default s3 origin (example b above)
+
 __EOF
+}
+
+die() {
+  echo $* >&2
+  exit
 }
 
 name="epfl"
@@ -30,8 +38,9 @@ syncto=3600
 syncint=0
 manstart=0
 profiles=""
+origin=""
 
-while getopts ":n:c:t:o:p:s:S:egumh" OPT; do
+while getopts ":n:c:t:o:p:s:S:egaumh" OPT; do
   [[ $OPTARG =~ ^- ]] && die "Option -$OPT requires an argument."
   case $OPT in
     :)
@@ -46,6 +55,8 @@ while getopts ":n:c:t:o:p:s:S:egumh" OPT; do
       origin="$OPTARG"; ;;
     g)
       origin="-b awsdocker https://github.com/epfl-idevelop/performance-test-gatling.git"; ;;
+    a)
+      origin="s3://idevelop-gatling-results/simulations"; ;;
     p)
       profile="$profiles $OPTARG"; ;;
     e)
@@ -67,6 +78,10 @@ done
 
 ctime="$(date +%Y%m%d%H%M)"
 job_name="${name}_${ctime}"
+
+if [ -z "$origin" ] ; then
+  die "Plese provide a source (origin) for tests with either -a or -g shortcut options, or with -o 'ORIGIN'"
+fi
 
 envs="{name=NAME, value=$job_name}, {name=TESTS, value=$tname}, {name=ORIGIN, value='$origin'}"
 if [[ $syncint != "0" ]] ; then
