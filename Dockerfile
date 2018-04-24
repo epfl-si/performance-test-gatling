@@ -15,6 +15,6 @@ RUN apk --update add git openssh && \
 
 VOLUME ["/sim"]
 
+COPY ./bin  /bin/sim
 
-COPY bin/docker-ep.sh /ep.sh
-ENTRYPOINT ["/ep.sh"]
+ENTRYPOINT ["/bin/sim/docker-ep.sh"]
