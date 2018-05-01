@@ -11,7 +11,7 @@ import scala.concurrent.duration._
 class ActuHome extends Simulation {
 
   // Here is the root for all relative URLs
-  val baseUrl = "https://test-actu.epfl.ch"
+  val baseUrl = "https://actu.epfl.ch"
 
   // Here are the common headers
   val header  = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
