@@ -1,0 +1,4 @@
+forge "https://forgeapi.puppetlabs.com"
+
+mod 'puppetlabs-stdlib', '4.25.1'
+mod 'puppetlabs-java', '2.4.0'
