@@ -11,20 +11,19 @@ die() {
 # If not yet present, create the virtenv
 if [ ! -d $CASA/ENV ] ; then
 	if [ -n "$(which pip3)" ] ; then
-		PIP="$(which pip3)"
+		pip3 install virtualenv   || die "Could no install virtualenv package with pip"
 	else
 		if [ -n "$(which pip)" ] ; then
-			PIP=$(which pip)
+			pip install virtualenv   || die "Could no install virtualenv package with pip"
 		else
 			die "Please install pip"
 		fi
 	fi
 	pushd $CASA              || die "Unexpected error: cannot change to '$CASA'"
-	$PIP install virtualenv   || die "Could no install virtualenv package with pip"
 	virtualenv ENV           || die "Could not create virtualenv"
     source ENV/bin/activate
     curl https://bootstrap.pypa.io/get-pip.py | python
-    $PIP install -r requirements.txt
+    pip install -r requirements.txt
     popd
 fi
 
