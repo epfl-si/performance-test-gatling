@@ -8,10 +8,10 @@ import io.gatling.core.Predef._
 import io.gatling.http.Predef._
 import scala.concurrent.duration._
 
-class TestActuChannelHome extends Simulation {
+class StagingActuNewsHeavy extends Simulation {
 
   // Here is the root for all relative URLs
-  val baseUrl = "https://test-actu.epfl.ch"
+  val baseUrl = "https://staging-actu.epfl.ch"
 
   // Here are the common headers
   val header  = "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
@@ -29,8 +29,8 @@ class TestActuChannelHome extends Simulation {
     .maxConnectionsPerHostLikeChrome
 
   // A scenario is a chain of requests and pauses
-  val scn = scenario("test-actu-channel-home-mediacom").group("page") {
-    exec(http("test-actu-channel-home-mediacom").get("/search/mediacom/")
+  val scn = scenario("staging-actu-news-heavy").group("page") {
+    exec(http("staging-actu-news-heavy").get("/news/high-school-students-try-out-an-epfl-chemistry-lab/")
   )}
 
   setUp(
