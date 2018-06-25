@@ -1,4 +1,6 @@
 #!./ENV/bin/python
+# (c) All rights reserved. ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE,
+# Switzerland, VPSI, 2018
 import argparse
 import boto3
 import os
@@ -52,11 +54,11 @@ class MyEc2:
 		return(self.status_details_cache)
 
 	def list_available_ips(self):
-		result=""
+                ips=[]
 		for i in self.instances(status='running'):
 			if i.public_ip_address:
-				result += " " + i.public_ip_address
-		return(result)
+				ips.append(i.public_ip_address)
+		return(" ".join(ips))
 
 	def list(self):
 		result=""
@@ -119,7 +121,7 @@ class MyEc2:
 			print("Using ami image: ".format(self.imageId))
 		dd = self.ec2_client.run_instances(
 	 		ImageId        = self.imageId,
-	 		InstanceType   = self.config['type'],
+	 		InstanceType   = type,
 	 		MinCount       = count,
 	 		MaxCount       = count,
 	 		KeyName        = self.kp.name,
@@ -274,7 +276,13 @@ if __name__ == '__main__':
 		elif c == "destroy":
 			ec2.terminate_all_instances()
 		elif c == "ssh":
-			print("ssh -i {} -l ec2-user ".format(ec2.ssh_key_path))
+			# print("ssh -i {} -l ec2-user -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no".format(ec2.ssh_key_path))
+			print("ssh -i {} -l ec2-user".format(ec2.ssh_key_path))
+		elif c == "pssh":
+			# print("pssh -x '-i {} -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' -l ec2-user -H '{}' -i".format(ec2.ssh_key_path, ec2.list_available_ips()))
+			print("pssh -x '-i {}' -l ec2-user -H '{}' -i".format(ec2.ssh_key_path, ec2.list_available_ips()))
+		elif c == "pssh_opts":
+			print("pssh -x '-i {}' -l ec2-user -H '{}' -i".format(ec2.ssh_key_path, ec2.list_available_ips()))
 		else:
 			print("Invalid command ", c)
 			exit()
