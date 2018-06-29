@@ -41,7 +41,7 @@ fi
 USER_NAME='kis'
 
 #Remote hosts list
-HOSTS=( idevelopsrv20 idevelopsrv21 idevelopsrv22 idevelopsrv23 idevelopsrv24 )
+HOSTS=( HOSTNAME1 HOSTNAME2 )
 
 #Assuming all Gatling installation in same path (with write permissions)
 GATLING_LOCAL_HOME=gatling
