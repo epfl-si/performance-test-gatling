@@ -1,6 +1,6 @@
 /**
  * (c) All rights reserved. ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE,
- * Switzerland, VPSI, 2018
+ * Switzerland, VPSI, 2019
  */
 package epfl
 
