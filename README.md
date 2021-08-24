@@ -1,13 +1,13 @@
 Performance test gatling
 ========================
 
-Performance test toolbox with Gatling for IDevelop web applications
+Performance test toolbox with Gatling for EPFL-SI web applications
 
 Install
 -------
 
 ```bash
-git clone https://github.com/epfl-idevelop/performance-test-gatling.git
+git clone https://github.com/epfl-si/performance-test-gatling.git
 cd performance-test-gatling
 ./bin/install.sh
 ```
@@ -21,13 +21,13 @@ Default simulation:
 ./gatling/bin/gatling.sh
 ```
 
-IDevelop simulation:
+EPFL-SI simulation:
 
 ```bash
 ./gatling/bin/gatling.sh -sf simulations/
 ```
 
-IDevelop cluster simulation with gathering of results:
+EPFL-SI cluster simulation with gathering of results:
 
 ```bash
 ./bin/cluster-run.sh <simulation_name>
@@ -50,6 +50,6 @@ License
 
 Apache License 2.0
 
-(c) ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE, Switzerland, VPSI, 2018.
+(c) ECOLE POLYTECHNIQUE FEDERALE DE LAUSANNE, Switzerland, 2018-2021.
 
 See the [LICENSE](LICENSE) file for more details.

@@ -26,7 +26,7 @@ class InfoscienceExports extends Simulation {
     .doNotTrackHeader("1")
     .acceptLanguageHeader("en-US,en;q=0.5")
     .acceptEncodingHeader("gzip, deflate")
-    .userAgentHeader("IDevelopBot - v1.0.0")
+    .userAgentHeader("EPFL-SI PerfTestBot - v1.0.0")
     .disableCaching
     .disableClientSharing
     .maxConnectionsPerHostLikeChrome
