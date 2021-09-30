@@ -8,7 +8,11 @@ services:
   runner:
     build: .
     environment:
-      TESTS: ${TESTS}
+      NAME:  ${NAME}
+      NREP:  ${NREP:-1}
+      TESTS: ${TESTS:-WwwProxy}
+      WAIT:  ${WAIT:-1}
     volumes:
       - .:/sim
-      - ./gatling/results:/sim/gatling/results
+      - ./results:/sim/results
+    command: run.sh
