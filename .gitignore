@@ -3,3 +3,11 @@
 
 gatling/
 .DS_Store
+
+aws-ec2/ENV/
+aws-ec2/data/simulations
+aws-ec2/data/gatling-charts-highcharts-bundle*/
+aws-ec2/bin/go.sh
+aws-ec2/bin/toalgo.sh
+aws-ec2/results
+tmp/
