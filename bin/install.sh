@@ -10,7 +10,7 @@ PKG_MANAGER=""
 # Tools needed to install / run
 TOOLS=( wget unzip java )
 
-GATLING_LINK='https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/2.3.0/gatling-charts-highcharts-bundle-2.3.0-bundle.zip'
+GATLING_LINK='https://repo1.maven.org/maven2/io/gatling/highcharts/gatling-charts-highcharts-bundle/3.6.1/gatling-charts-highcharts-bundle-3.6.1-bundle.zip'
 GATLING_ARCHIVE='gatling.zip'
 
 # Check package manager
